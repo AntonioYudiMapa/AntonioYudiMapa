@@ -19,6 +19,12 @@
 
 		function initMap() {
 			// Cria o mapa
+			if (document.readyState === 'loading') {
+			  document.addEventListener('DOMContentLoaded', initMap);
+			} else {
+			  initMap();
+			}
+
 			map = new google.maps.Map(document.getElementById('map'), {
 				center: {lat: -23.5505, lng: -46.6333}, // São Paulo, Brasil
 				zoom: 14
@@ -47,7 +53,60 @@
 		}
 	</script>
 
-	<!-- Adiciona a API do Google Maps -->
+	<!-- <!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Mapa em tempo real</title>
+	<style>
+		#map {
+			height: 400px;
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+
+	<script>
+		var map;
+		var marker;
+
+		function initMap() {
+			// Cria o mapa
+			map = new google.maps.Map(document.getElementById('map'), {
+				center: {lat: -23.5505, lng: -46.6333}, // São Paulo, Brasil
+				zoom: 14
+			});
+
+			// Cria um marcador para a localização do celular
+			marker = new google.maps.Marker({
+				map: map,
+				animation: google.maps.Animation.DROP
+			});
+
+			// Inicia a geolocalização em tempo real
+			if (navigator.geolocation) {
+				navigator.geolocation.watchPosition(function(position) {
+					// Atualiza a posição do marcador com as informações da localização
+					var pos = {
+						lat: position.coords.latitude,
+						lng: position.coords.longitude
+					};
+					marker.setPosition(pos);
+					map.setCenter(pos);
+				});
+			} else {
+				alert("Seu navegador não suporta geolocalização!");
+			}
+		}
+	</script>
+
+	<!--  -->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApEjesi_Hh2tJ4T-URfnSruxBOuHGlPMA&callback=initMap" async defer></script>
+</body>
+</html>
+s -->
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApEjesi_Hh2tJ4T-URfnSruxBOuHGlPMA&callback=initMap" async defer></script>
 </body>
 </html>
