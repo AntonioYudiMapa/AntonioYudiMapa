@@ -13,42 +13,53 @@
 <body>
 	<div id="map"></div>
 
+	<script src="https://maps.googleapis.com/maps/api/js?key=SUA_CHAVE_AQUI&callback=initMap"></script>
 	<script>
 		function initMap() {
 			var map;
 			var marker;
 
+			// cria o mapa
 			map = new google.maps.Map(document.getElementById('map'), {
 				center: {lat: -23.5505, lng: -46.6333}, // São Paulo, Brasil
 				zoom: 14
 			});
 
+			// cria o marcador com a imagem
 			marker = new google.maps.Marker({
+				position: {lat: -23.5505, lng: -46.6333},
 				map: map,
-				animation: google.maps.Animation.DROP
+				icon: {
+					url: 'https://maps.google.com/mapfiles/kml/shapes/target.png', // URL da imagem
+					scaledSize: new google.maps.Size(40, 40), // tamanho da imagem
+					origin: new google.maps.Point(0, 0), // posição de origem da imagem
+					anchor: new google.maps.Point(20, 20) // ponto de ancoragem da imagem
+				}
 			});
 
+			// tenta obter a posição do usuário
 			if (navigator.geolocation) {
-				navigator.geolocation.watchPosition(function(position) {
-					var pos = {
+				navigator.geolocation.getCurrentPosition(function(position) {
+					// atualiza a posição do marcador
+					marker.setPosition({
 						lat: position.coords.latitude,
 						lng: position.coords.longitude
-					};
-					marker.setPosition(pos);
-					map.setCenter(pos);
+					});
+
+					// centraliza o mapa na posição do usuário
+					map.setCenter({
+						lat: position.coords.latitude,
+						lng: position.coords.longitude
+					});
+				}, function() {
+					// trata o caso em que o usuário não permite o acesso à sua posição
+					alert('Não foi possível obter a sua localização.');
 				});
 			} else {
-				alert("Seu navegador não suporta geolocalização!");
+				// trata o caso em que o navegador não suporta geolocalização
+				alert('O seu navegador não suporta geolocalização.');
 			}
 		}
-
-		// adiciona um listener de eventos para a carga da API
-		window.addEventListener('load', function() {
-			// carrega a API do Google Maps
-			var script = document.createElement('script');
-			script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDJPyYZVZZrVjx1XzY5DruLV_f2mOiK0OU&&callback=initMap';
-			document.body.appendChild(script);
-		});
 	</script>
 </body>
 </html>
