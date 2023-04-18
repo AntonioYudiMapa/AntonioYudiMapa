@@ -8,6 +8,7 @@ var marker;
  
 
     
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -23,10 +24,10 @@ var marker;
 	<div id="map"></div>
 
 	<script>
-		var map;
-		var marker;
-
 		function initMap() {
+			var map;
+			var marker;
+
 			map = new google.maps.Map(document.getElementById('map'), {
 				center: {lat: -23.5505, lng: -46.6333}, // São Paulo, Brasil
 				zoom: 14
@@ -51,12 +52,17 @@ var marker;
 			}
 		}
 
-		initMap();
+		// adiciona um listener de eventos para a carga da API
+		window.addEventListener('load', function() {
+			// carrega a API do Google Maps
+			var script = document.createElement('script');
+			script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDJPyYZVZZrVjx1XzY5DruLV_f2mOiK0OU&&callback=initMap';
+			document.body.appendChild(script);
+		});
 	</script>
-
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJPyYZVZZrVjx1XzY5DruLV_f2mOiK0OU&v=3"></script>async defer></script>
 </body>
 </html>
+
   }
 
   window.initMap = initMap;
